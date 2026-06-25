@@ -1,0 +1,386 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.db { padding: 0 0 2rem; }
+.header { background: #1a0a2e; padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; margin-bottom: 1.25rem; }
+.logo-area { display: flex; align-items: center; gap: 10px; }
+.logo-dot { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #e84393, #9b59b6); display: flex; align-items: center; justify-content: center; font-size: 14px; color: white; font-weight: 500; }
+.brand { color: white; font-size: 18px; font-weight: 500; letter-spacing: -0.3px; }
+.brand span { color: #e84393; }
+.tagline { color: rgba(255,255,255,0.5); font-size: 12px; }
+.nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.nav-pill { padding: 5px 12px; border-radius: 20px; font-size: 12px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); cursor: pointer; background: transparent; transition: all 0.2s; }
+.nav-pill.active, .nav-pill:hover { background: #e84393; border-color: #e84393; color: white; }
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+.metric { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 0.85rem 1rem; border-top: 3px solid transparent; }
+.metric.total { border-top-color: #9b59b6; }
+.metric.high { border-top-color: #e74c3c; }
+.metric.medium { border-top-color: #f39c12; }
+.metric.low { border-top-color: #27ae60; }
+.metric.rate { border-top-color: #3498db; }
+.metric-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.metric-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.metric-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 3px; }
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.25rem; }
+.chart-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+.chart-card.full { grid-column: 1 / -1; }
+.chart-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.chart-sub { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 12px; }
+.search-section { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
+.search-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.search-row input { flex: 1; padding: 8px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 13px; }
+.search-row button { padding: 8px 16px; background: #9b59b6; border: none; border-radius: var(--border-radius-md); color: white; font-size: 13px; cursor: pointer; }
+.result-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem; display: none; }
+.result-card.visible { display: block; }
+.result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.result-name { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+.risk-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.risk-high { background: #fde8e8; color: #a32d2d; }
+.risk-medium { background: #fef3cd; color: #856404; }
+.risk-low { background: #d1f2eb; color: #0b6e4f; }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.result-stat { background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 8px 12px; }
+.result-stat-label { font-size: 11px; color: var(--color-text-secondary); }
+.result-stat-value { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.recommendations { display: flex; flex-wrap: wrap; gap: 6px; }
+.rec-tag { padding: 4px 10px; background: #f0e8fb; color: #6a1fa8; border-radius: 20px; font-size: 11px; }
+.insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 1.25rem; }
+.insight-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+.insight-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-secondary); margin-bottom: 8px; }
+.insight-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 12px; color: var(--color-text-primary); }
+.insight-item:last-child { border-bottom: none; }
+.insight-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.integrations { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.integ-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 0.85rem 1rem; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: border-color 0.2s; }
+.integ-card:hover { border-color: #9b59b6; }
+.integ-icon { width: 32px; height: 32px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.integ-name { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
+.integ-status { font-size: 11px; color: #27ae60; }
+.section-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+.legend-sq { width: 10px; height: 10px; border-radius: 2px; }
+.no-result { font-size: 13px; color: var(--color-text-secondary); text-align: center; padding: 1rem; display: none; }
+.no-result.visible { display: block; }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Sakhi AI Analytics Dashboard — Women Safety Crime Data across Indian Districts</h2>
+
+<div class="db">
+
+<div class="header">
+  <div class="logo-area">
+    <div class="logo-dot">S</div>
+    <div>
+      <div class="brand">Sakhi <span>AI</span></div>
+      <div class="tagline">Women Safety Intelligence Platform</div>
+    </div>
+  </div>
+  <div class="nav-pills">
+    <div class="nav-pill active">Analytics</div>
+    <div class="nav-pill" onclick="window.location.href='/map'">Map</div>
+    <div class="nav-pill" onclick="window.location.href='/sos'">SOS</div>
+    <div class="nav-pill"  onclick="window.location.href='/sakhi-chat'">AI Chat</div>
+  </div>
+</div>
+
+<div class="metrics-grid">
+  <div class="metric total">
+    <div class="metric-label">Total Cases</div>
+    <div class="metric-value">4,82,877</div>
+    <div class="metric-sub">↑ 3.2% vs last year</div>
+  </div>
+  <div class="metric high">
+    <div class="metric-label">High Risk</div>
+    <div class="metric-value" style="color:#e74c3c">127</div>
+    <div class="metric-sub">districts</div>
+  </div>
+  <div class="metric medium">
+    <div class="metric-label">Medium Risk</div>
+    <div class="metric-value" style="color:#f39c12">214</div>
+    <div class="metric-sub">districts</div>
+  </div>
+  <div class="metric low">
+    <div class="metric-label">Low Risk</div>
+    <div class="metric-value" style="color:#27ae60">389</div>
+    <div class="metric-sub">districts</div>
+  </div>
+  <div class="metric rate">
+    <div class="metric-label">Avg Crime Rate</div>
+    <div class="metric-value" style="color:#3498db">58.3</div>
+    <div class="metric-sub">per 100K population</div>
+  </div>
+</div>
+
+<div class="charts-grid">
+  <div class="chart-card">
+    <div class="chart-title">Top 10 high-risk districts</div>
+    <div class="chart-sub">Crime rate per 100,000 population</div>
+    <div style="position:relative;width:100%;height:280px;">
+      <canvas id="topDistricts" role="img" aria-label="Horizontal bar chart of top 10 high-risk districts by crime rate in India">Top 10 high-risk districts by crime rate per 100,000 population.</canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">Risk level distribution</div>
+    <div class="chart-sub">730 districts total</div>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-sq" style="background:#e74c3c"></span>High 17%</span>
+      <span class="legend-item"><span class="legend-sq" style="background:#f39c12"></span>Medium 29%</span>
+      <span class="legend-item"><span class="legend-sq" style="background:#27ae60"></span>Low 53%</span>
+    </div>
+    <div style="position:relative;width:100%;height:230px;">
+      <canvas id="riskDist" role="img" aria-label="Doughnut chart showing risk level distribution: 17% high risk, 29% medium risk, 53% low risk">Risk level breakdown: 127 high risk, 214 medium risk, 389 low risk districts.</canvas>
+    </div>
+  </div>
+  <div class="chart-card full">
+    <div class="chart-title">Year-wise crime trend</div>
+    <div class="chart-sub">2014–2023 reported IPC crimes against women</div>
+    <div style="position:relative;width:100%;height:220px;">
+      <canvas id="yearTrend" role="img" aria-label="Line chart showing crime trend from 2014 to 2023">Annual crime trend showing gradual increase from 2014 to 2023 with a dip in 2020-21 due to COVID-19.</canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">State-wise crime rate</div>
+    <div class="chart-sub">Top 12 states by reported rate</div>
+    <div style="position:relative;width:100%;height:250px;">
+      <canvas id="stateChart" role="img" aria-label="Bar chart comparing crime rates across top 12 Indian states">State-wise crime rate comparison per 100,000 population.</canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">Crime type analysis</div>
+    <div class="chart-sub">Category breakdown 2023</div>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-sq" style="background:#9b59b6"></span>Assault</span>
+      <span class="legend-item"><span class="legend-sq" style="background:#e74c3c"></span>Harassment</span>
+      <span class="legend-item"><span class="legend-sq" style="background:#f39c12"></span>Kidnap</span>
+      <span class="legend-item"><span class="legend-sq" style="background:#3498db"></span>Domestic</span>
+      <span class="legend-item"><span class="legend-sq" style="background:#27ae60"></span>Other</span>
+    </div>
+    <div style="position:relative;width:100%;height:210px;">
+      <canvas id="crimeType" role="img" aria-label="Pie chart of crime type breakdown in 2023">Crime type breakdown: assault, harassment, kidnapping, domestic violence, and others.</canvas>
+    </div>
+  </div>
+</div>
+
+<div class="search-section">
+  <div class="section-label" style="margin-bottom:10px">District safety search</div>
+  <div class="search-row">
+    <input type="text" id="districtInput" placeholder="Search district or city (e.g. Lucknow, Patna, Jaipur...)" />
+    <button onclick="searchDistrict()">Search</button>
+  </div>
+  <div class="result-card" id="resultCard">
+    <div class="result-header">
+      <div class="result-name" id="resultName"></div>
+      <span class="risk-badge" id="riskBadge"></span>
+    </div>
+    <div class="result-grid">
+      <div class="result-stat">
+        <div class="result-stat-label">Risk score</div>
+        <div class="result-stat-value" id="riskScore"></div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-label">Crime rate / 100K</div>
+        <div class="result-stat-value" id="crimeRate"></div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-label">Cases 2023</div>
+        <div class="result-stat-value" id="casesVal"></div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-label">Risk trend</div>
+        <div class="result-stat-value" id="trendVal"></div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">Safety recommendations</div>
+    <div class="recommendations" id="recTags"></div>
+  </div>
+  <div class="no-result" id="noResult">No data found. Try: Lucknow, Patna, Jaipur, Bhopal, Gwalior, Agra, Meerut, Kanpur, Surat, Pune</div>
+</div>
+
+<div class="insights-grid">
+  <div class="insight-card">
+    <div class="insight-label">Safest districts</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#27ae60"></div>Leh, J&K</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#27ae60"></div>Kargil, Ladakh</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#27ae60"></div>East Sikkim</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#27ae60"></div>Anjaw, Arunachal</div>
+  </div>
+  <div class="insight-card">
+    <div class="insight-label">Most unsafe districts</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#e74c3c"></div>North East Delhi</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#e74c3c"></div>Gwalior, MP</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#e74c3c"></div>Bhind, MP</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#e74c3c"></div>Morena, MP</div>
+  </div>
+  <div class="insight-card">
+    <div class="insight-label">Crime hotspots</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#e74c3c"></div>Uttar Pradesh NCR belt</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#e74c3c"></div>Madhya Pradesh plateau</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#f39c12"></div>Rajasthan eastern belt</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#f39c12"></div>Bihar Gangetic plain</div>
+  </div>
+  <div class="insight-card">
+    <div class="insight-label">Risk trend (2022–23)</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#e74c3c"></div>Delhi — worsening ↑7%</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#27ae60"></div>Tamil Nadu — improving ↓4%</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#27ae60"></div>Himachal Pradesh ↓6%</div>
+    <div class="insight-item"><div class="insight-dot" style="background:#f39c12"></div>Maharashtra — stable</div>
+  </div>
+</div>
+
+<div class="section-label">Integrated features</div>
+<div class="integrations">
+  <div class="integ-card">
+    <div class="integ-icon" style="background:#fde8e8;color:#e74c3c"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+    <div><div class="integ-name">Safety Map</div><div class="integ-status">● Live</div></div>
+  </div>
+  <div class="integ-card">
+    <div class="integ-icon" style="background:#fde8e8;color:#c0392b"><i class="ti ti-alert-triangle" aria-hidden="true"></i></div>
+    <div><div class="integ-name">SOS Emergency</div><div class="integ-status">● Active</div></div>
+  </div>
+  <div class="integ-card">
+    <div class="integ-icon" style="background:#f0e8fb;color:#9b59b6"><i class="ti ti-robot" aria-hidden="true"></i></div>
+    <div><div class="integ-name">AI Chatbot</div><div class="integ-status">● Online</div></div>
+  </div>
+  <div class="integ-card">
+    <div class="integ-icon" style="background:#e8f5fb;color:#3498db"><i class="ti ti-microphone" aria-hidden="true"></i></div>
+    <div><div class="integ-name">Voice Assistant</div><div class="integ-status">● Ready</div></div>
+  </div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const districtData = {
+  "lucknow": { name: "Lucknow, UP", risk: "High", score: 78, rate: 92.4, cases: 4821, trend: "↑ Worsening", recs: ["Avoid late night travel", "Use verified cabs", "Share location always", "Emergency: 112"] },
+  "patna": { name: "Patna, Bihar", risk: "High", score: 74, rate: 87.1, cases: 3940, trend: "↑ Slight rise", recs: ["Stay in well-lit areas", "Travel in groups", "Keep contacts updated", "Avoid isolated routes"] },
+  "jaipur": { name: "Jaipur, Rajasthan", risk: "Medium", score: 55, rate: 61.2, cases: 5102, trend: "→ Stable", recs: ["Standard precautions", "Register on Sakhi AI", "Save emergency contacts"] },
+  "bhopal": { name: "Bhopal, MP", risk: "High", score: 81, rate: 99.3, cases: 6210, trend: "↑ Worsening", recs: ["Avoid outskirts after dark", "Use police helpline 1091", "Share live location", "Travel with companion"] },
+  "gwalior": { name: "Gwalior, MP", risk: "High", score: 88, rate: 118.7, cases: 5430, trend: "↑ High risk zone", recs: ["Exercise extreme caution", "Avoid solo travel", "Keep SOS ready", "Stay in verified areas"] },
+  "agra": { name: "Agra, UP", risk: "Medium", score: 62, rate: 71.8, cases: 3870, trend: "→ Stable", recs: ["Stay in tourist zones", "Use licensed transport", "Avoid crowded markets alone"] },
+  "meerut": { name: "Meerut, UP", risk: "High", score: 79, rate: 94.5, cases: 4290, trend: "↑ Rising", recs: ["Avoid night markets", "Use trusted transport", "Emergency contacts ready"] },
+  "kanpur": { name: "Kanpur, UP", risk: "High", score: 76, rate: 90.2, cases: 5780, trend: "↑ Rising", recs: ["Avoid isolated lanes", "Prefer metro travel", "Keep 112 on speed dial"] },
+  "surat": { name: "Surat, Gujarat", risk: "Low", score: 32, rate: 28.4, cases: 2310, trend: "↓ Improving", recs: ["City is relatively safe", "Standard night precautions", "Register for alerts"] },
+  "pune": { name: "Pune, Maharashtra", risk: "Low", score: 38, rate: 35.6, cases: 4120, trend: "→ Stable", recs: ["Safe for women generally", "Avoid late night travel", "Use verified ride apps"] },
+  "delhi": { name: "New Delhi", risk: "High", score: 85, rate: 112.3, cases: 14820, trend: "↑ Worsening", recs: ["High alert zone", "Avoid solo late travel", "Use Sakhi SOS", "Prefer metro after 9pm"] },
+  "mumbai": { name: "Mumbai, Maharashtra", risk: "Medium", score: 48, rate: 45.7, cases: 12400, trend: "→ Stable", recs: ["Relatively safe", "Avoid deserted areas", "Stay alert in local trains"] },
+  "hyderabad": { name: "Hyderabad, Telangana", risk: "Medium", score: 51, rate: 52.1, cases: 7890, trend: "→ Stable", recs: ["Generally safe", "Night precautions advised", "Use app-based cabs"] },
+  "bangalore": { name: "Bangalore, Karnataka", risk: "Low", score: 41, rate: 39.2, cases: 9320, trend: "↓ Improving", recs: ["Safe metro city", "Standard precautions", "Stay in lit areas at night"] },
+  "chennai": { name: "Chennai, Tamil Nadu", risk: "Low", score: 33, rate: 29.7, cases: 6780, trend: "↓ Improving", recs: ["Among safer metros", "Precautions on beaches at night", "Well-patrolled city"] }
+};
+
+function searchDistrict() {
+  const q = document.getElementById('districtInput').value.trim().toLowerCase();
+  const key = Object.keys(districtData).find(k => q.includes(k) || k.includes(q));
+  const rc = document.getElementById('resultCard');
+  const nr = document.getElementById('noResult');
+  if (!key) {
+    rc.classList.remove('visible');
+    nr.classList.add('visible');
+    return;
+  }
+  nr.classList.remove('visible');
+  const d = districtData[key];
+  document.getElementById('resultName').textContent = d.name;
+  const badge = document.getElementById('riskBadge');
+  badge.textContent = d.risk + ' Risk';
+  badge.className = 'risk-badge risk-' + d.risk.toLowerCase();
+  document.getElementById('riskScore').textContent = d.score + ' / 100';
+  document.getElementById('riskScore').style.color = d.risk === 'High' ? '#e74c3c' : d.risk === 'Medium' ? '#f39c12' : '#27ae60';
+  document.getElementById('crimeRate').textContent = d.rate;
+  document.getElementById('casesVal').textContent = d.cases.toLocaleString();
+  document.getElementById('trendVal').textContent = d.trend;
+  const tags = document.getElementById('recTags');
+  tags.innerHTML = d.recs.map(r => `<span class="rec-tag">${r}</span>`).join('');
+  rc.classList.add('visible');
+}
+
+document.getElementById('districtInput').addEventListener('keydown', e => { if (e.key === 'Enter') searchDistrict(); });
+
+new Chart(document.getElementById('topDistricts'), {
+  type: 'bar',
+  data: {
+    labels: ['Gwalior', 'Delhi NE', 'Bhind', 'Morena', 'Bhopal', 'Kanpur', 'Lucknow', 'Meerut', 'Patna', 'Jodhpur'],
+    datasets: [{ label: 'Crime rate', data: [118.7, 112.3, 108.4, 104.2, 99.3, 90.2, 92.4, 94.5, 87.1, 79.8],
+      backgroundColor: ['#e74c3c','#e74c3c','#e74c3c','#e74c3c','#e74c3c','#e84393','#e84393','#e84393','#f39c12','#f39c12'],
+      borderRadius: 4, borderSkipped: false }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { font: { size: 11 } } },
+      y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('riskDist'), {
+  type: 'doughnut',
+  data: {
+    labels: ['High Risk', 'Medium Risk', 'Low Risk'],
+    datasets: [{ data: [127, 214, 389], backgroundColor: ['#e74c3c', '#f39c12', '#27ae60'], borderWidth: 0, hoverOffset: 8 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} districts` } } },
+    cutout: '65%'
+  }
+});
+
+new Chart(document.getElementById('yearTrend'), {
+  type: 'line',
+  data: {
+    labels: ['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023'],
+    datasets: [{
+      label: 'Cases (thousands)', data: [337,329,338,359,378,405,371,428,445,483],
+      borderColor: '#9b59b6', backgroundColor: 'rgba(155,89,182,0.1)',
+      fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#9b59b6', borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { ticks: { callback: v => v + 'K', font: { size: 11 } }, grid: { color: 'rgba(128,128,128,0.1)' } },
+      x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('stateChart'), {
+  type: 'bar',
+  data: {
+    labels: ['MP','Rajasthan','UP','Bihar','Delhi','Assam','Odisha','WB','Haryana','Maha','AP','TN'],
+    datasets: [{ label: 'Rate per 100K', data: [98.4, 82.1, 79.3, 68.7, 112.3, 88.2, 61.4, 56.8, 74.2, 45.7, 42.1, 29.7],
+      backgroundColor: ctx => {
+        const v = ctx.raw;
+        return v > 80 ? '#e74c3c' : v > 60 ? '#f39c12' : '#27ae60';
+      },
+      borderRadius: 4 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, ticks: { font: { size: 10 } }, grid: { color: 'rgba(128,128,128,0.1)' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 0 } }
+    }
+  }
+});
+
+new Chart(document.getElementById('crimeType'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Assault & molestation', 'Sexual harassment', 'Kidnapping/abduction', 'Domestic violence', 'Other IPC'],
+    datasets: [{ data: [29, 24, 18, 20, 9], backgroundColor: ['#9b59b6','#e74c3c','#f39c12','#3498db','#27ae60'], borderWidth: 0, hoverOffset: 8 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` } } },
+    cutout: '55%'
+  }
+});
+</script>

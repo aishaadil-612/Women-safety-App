@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sakhi AI</title>
+
+    <style>
+
+        /* body{
+            font-family: Arial, sans-serif;
+            margin:0;
+            padding:0;
+            background:#f5f5f5;
+        }
+
+        .navbar{
+            background:#8e44ad;
+            padding:15px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .logo{
+            color:white;
+            font-size:24px;
+            font-weight:bold;
+        }
+
+        .nav-links a{
+            color:white;
+            text-decoration:none;
+            margin-left:20px;
+            font-size:16px;
+        }
+
+        .nav-links a:hover{
+            text-decoration:underline;
+        }
+
+        .search-section{
+            text-align:center;
+            margin-top:100px;
+        }
+
+        input{
+            width:350px;
+            padding:12px;
+            border-radius:8px;
+            border:1px solid #ccc;
+        }
+
+        button{
+            padding:12px 20px;
+            border:none;
+            background:#8e44ad;
+            color:white;
+            border-radius:8px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#6c3483;
+        } */
+:root{
+--bg:#0a0a1a;--card:#111128;--panel:#161635;--border:rgba(168,85,247,0.18);
+--accent:#a855f7;--rose:#f43f5e;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;
+--tp:var(--color-text-primary);--ts:var(--color-text-secondary);--tm:#64748b;
+}
+body{background:var(--bg);color:var(--tp);font-family:var(--font-sans);min-height:100vh;color:white}
+.app{display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background:var(--bg)}
+header{background:rgba(111, 29, 114, 0.96);border-bottom:1px solid var(--border);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50 ; color:white}
+.logo{font-size:17px;font-weight:500;background:linear-gradient(135deg,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:7px}
+.logo-icon{width:28px;height:28px;background:linear-gradient(135deg,#a855f7,#ec4899);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+nav{display:flex;gap:2px}
+nav button{background:none;border:none;color:var(--ts);padding:5px 11px;border-radius:7px;font-size:12px;cursor:pointer;transition:all .15s}
+nav button:hover,nav button.active{color:var(--tp);background:rgba(168,85,247,0.18)}
+.sos-hdr{background:#dc2626;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:500;cursor:pointer;animation:pr 2s infinite;transition:transform .15s}
+.sos-hdr:hover{transform:scale(1.04)}
+@keyframes pr{0%,100%{box-shadow:0 0 14px rgba(220,38,38,0.5)}50%{box-shadow:0 0 28px rgba(220,38,38,0.8)}}
+section{display:none;flex:1}
+section.active{display:flex;flex-direction:column}
+.hero{display:grid;grid-template-columns:300px 1fr;flex:1;min-height:0}
+.sidebar{background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sbhdr{padding:14px;border-bottom:1px solid var(--border)}
+.sbox{display:flex;gap:6px}
+.sbox input{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--tp);font-size:12px;outline:none;transition:border-color .15s}
+.sbox input:focus{border-color:var(--accent)}
+.sbox input::placeholder{color:var(--tm)}
+.sbox button{background:var(--accent);color:#fff;border:none;border-radius:7px;padding:7px 11px;cursor:pointer;font-size:13px}
+#sres{padding:12px;border-bottom:1px solid var(--border);display:none}
+.rc{background:var(--panel);border-radius:9px;padding:12px;border:1px solid var(--border)}
+.rstate{font-size:14px;font-weight:500;margin-bottom:6px}
+.rbadge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500;margin-bottom:8px}
+.rL{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.rM{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.rH{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+.rscore{font-size:28px;font-weight:700}
+.rinfo{font-size:10px;color:var(--ts);margin-top:2px}
+.rrec{margin-top:8px}
+.rrec h4{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--tm);margin-bottom:4px}
+.rrec p{font-size:10px;color:var(--ts);line-height:1.45;padding:2px 0}
+.slist{flex:1;overflow-y:auto;padding:8px}
+.slist::-webkit-scrollbar{width:3px}
+.slist::-webkit-scrollbar-thumb{background:var(--border)}
+.si{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;cursor:pointer;transition:background .12s}
+.si:hover{background:var(--panel)}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sn{font-size:12px;flex:1}
+.sc{font-size:11px;font-weight:500}
+.maparea{flex:1;position:relative;overflow:hidden}
+canvas#indiamap{width:100%;height:100%}
+.tooltip{position:absolute;background:rgba(17,17,40,.95);border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:11px;pointer-events:none;opacity:0;transition:opacity .2s;max-width:200px;z-index:10}
+.ttitle{font-size:13px;font-weight:500;margin-bottom:6px}
+.trow{display:flex;justify-content:space-between;gap:16px;padding:2px 0}
+.tlab{color:var(--ts)}
+.tval{font-weight:500}
+.legend{position:absolute;bottom:16px;left:16px;background:rgba(17,17,40,.92);border:1px solid var(--border);border-radius:9px;padding:10px 12px}
+.legend h3{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--ts);margin-bottom:8px}
+.li{display:flex;align-items:center;gap:7px;margin:4px 0;font-size:10px;color:var(--ts)}
+.ldot{width:10px;height:10px;border-radius:50%}
+#dash{padding:24px;overflow-y:auto}
+.dh{font-size:22px;font-weight:500;margin-bottom:4px}
+.ds{font-size:12px;color:var(--ts);margin-bottom:20px}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:16px;position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.mcP::before{background:linear-gradient(90deg,#a855f7,#ec4899)}
+.mcG::before{background:#22c55e}.mcR::before{background:#ef4444}.mcY::before{background:#f59e0b}
+.mcl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--tm);margin-bottom:6px}
+.mcv{font-size:26px;font-weight:500;line-height:1;margin-bottom:3px}
+.mcs{font-size:10px;color:var(--ts)}
+.cg2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.cg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:16px}
+.cc h3{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--ts);margin-bottom:12px}
+.cw{height:180px;position:relative}
+.ri{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.rn{font-size:10px;color:var(--tm);width:16px;text-align:center}
+.rnm{flex:1;font-size:12px;font-weight:500}
+.rsc{font-size:11px;font-weight:500;padding:2px 7px;border-radius:5px}
+
+    </style>
+</head>
+
+<body>
+<h2 class="sr-only">Sakhi AI — Women Safety Intelligence Platform for India</h2>
+<div class="app">
+<header>
+  <div class="logo"><div class="logo-icon">🌸</div>Sakhi AI</div>
+  <nav id="nav">
+    <a href="/">
+    <button onclick="showSec('map')" class="active" id="nb-map"  >home</button>
+  </a>
+   <a href="/map">
+
+     <button > Map </button>
+    </a>
+
+     <a href="/analytics">
+    <button >Analytics</button>
+     </a>
+     <a href="/sakhi-chat">
+   
+     
+       <button >Sakhi Chat</button>
+      </a>
+   
+   </nav>
+  <a href="/sos">
+    <button class="sos-hdr">
+        🚨 SOS Emergency
+    </button>
+</a>
+</header>
+
+<section id="map" class="active">
+  <div class="hero">
+    <div class="sidebar">
+      <div class="sbhdr">
+        <h2>Search State</h2>
+        <div class="sbox">
+          <input type="text" id="sinp" placeholder="e.g. Kerala, Delhi..." onkeydown="if(event.key==='Enter')doSearch()">
+          <button onclick="doSearch()">⌕</button>
+        </div>
+      </div>
+      <div id="sres"></div>
+      <div class="slist" id="slist"></div>
+    </div>
+    <div class="maparea">
+      <canvas id="indiamap"></canvas>
+      <div class="tooltip" id="tip">
+        <div class="ttitle" id="ttitle"></div>
+        <div class="trow"><span class="tlab">Safety Score</span><span class="tval" id="tscore"></span></div>
+        <div class="trow"><span class="tlab">Risk Level</span><span class="tval" id="trisk"></span></div>
+        <div class="trow"><span class="tlab">Crime Rate</span><span class="tval" id="trate"></span></div>
+      </div>
+      <div class="legend">
+        <h3>Risk Legend</h3>
+        <div class="li"><div class="ldot" style="background:#22c55e"></div>Low Risk (≥60)</div>
+        <div class="li"><div class="ldot" style="background:#f59e0b"></div>Medium Risk (30–59)</div>
+        <div class="li"><div class="ldot" style="background:#ef4444"></div>High Risk (&lt;30)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- </section>
+<section id="chat" style="overflow:hidden">
+  <div class="chat" id="chatbox">
+    <div class="chdr">
+      <div class="cav">🌸</div>
+      <div class="cinfo">
+        <h3>Sakhi AI — Safety Companion</h3>
+        <p><span class="odot"></span> Online · Always here for you</p>
+      </div>
+    </div>
+    <div class="msgs" id="msgs"></div>
+    <div class="qps">
+      <button class="qpb" onclick="sq('Is Delhi safe for women?')">Is Delhi safe?</button>
+      <button class="qpb" onclick="sq('What are the safest states?')">Safest states</button>
+      <button class="qpb" onclick="sq('High risk states to avoid')">High risk states</button>
+      <button class="qpb" onclick="sq('Safety tips for travel')">Travel tips</button>
+    </div>
+    <div class="cia">
+      <input class="ci" id="ci" type="text" placeholder="Ask about safety, states, emergencies..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="cs" onclick="sendMsg()">➤</button>
+    </div>
+  </div>
+</section> -->
+
+
+   
+<a href="/map">
+    <button>View Safety Map</button>
+</a>    
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script> -->
+<script>
+const APP_DATA = {"states":[{"state":"Uttar Pradesh","safety_score":29.7,"risk_level":"High Risk","crime_rate":64.65,"total_crimes":129155,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[86.49,79.96,80.96,77.62,75.56,75.26,73.29,71.77,73.21,64.65],"crime_breakdown":{"Rape":25146,"Kidnapping_&_Abduction":4506,"Dowry_Deaths":2840,"Assault_on_Women":16321,"Insult_to_Modesty":17246,"Cruelty_by_Husband_Relatives":24640,"Trafficking":20739,"Cyber_Crimes_Against_Women":17714},"recommendations":["Always share your live location with trusted contacts","Save emergency numbers: Police (100), Women Helpline (1091), Ambulance (108)","Use Sakhi AI SOS feature in emergencies","Trust your instincts — if something feels wrong, leave","⚠️ Uttar Pradesh has elevated crime rates — exercise extra caution","Avoid travelling alone at night; use registered cabs","Keep pepper spray or personal alarm accessible","Inform someone of your route and expected arrival time"]},{"state":"Rajasthan","safety_score":33.1,"risk_level":"Medium Risk","crime_rate":56.01,"total_crimes":38340,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[69.96,69.76,68.33,67.67,65.29,62.55,61.04,66.4,66.4,56.01],"crime_breakdown":{"Rape":5177,"Kidnapping_&_Abduction":4730,"Dowry_Deaths":7172,"Assault_on_Women":1854,"Insult_to_Modesty":2563,"Cruelty_by_Husband_Relatives":6451,"Trafficking":7289,"Cyber_Crimes_Against_Women":3099},"recommendations":["Always share your live location with trusted contacts","Save emergency numbers: Police (100), Women Helpline (1091), Ambulance (108)","Use Sakhi AI SOS feature in emergencies","📋 Rajasthan has moderate safety levels — stay alert","Stick to familiar routes and public spaces","Keep your phone charged and accessible"]},{"state":"Maharashtra","safety_score":43.9,"risk_level":"Medium Risk","crime_rate":46.62,"total_crimes":52330,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[58.97,54.52,53.84,55.67,47.63,56.54,53.54,55.11,49.83,46.62],"crime_breakdown":{"Rape":4764,"Kidnapping_&_Abduction":18997,"Dowry_Deaths":5700,"Assault_on_Women":3051,"Insult_to_Modesty":6519,"Cruelty_by_Husband_Relatives":5078,"Trafficking":4651,"Cyber_Crimes_Against_Women":3566},"recommendations":["Always share your live location with trusted contacts","📋 Maharashtra has moderate safety levels — stay alert","Stick to familiar routes and public spaces","Keep your phone charged and accessible"]},{"state":"Madhya Pradesh","safety_score":35.6,"risk_level":"Medium Risk","crime_rate":57.68,"total_crimes":41884,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[76.27,71.23,78.73,72.77,64.37,63.69,59.98,67.31,55.23,57.68],"crime_breakdown":{"Rape":4647,"Kidnapping_&_Abduction":11025,"Dowry_Deaths":8219,"Assault_on_Women":1386,"Insult_to_Modesty":3043,"Cruelty_by_Husband_Relatives":3507,"Trafficking":7088,"Cyber_Crimes_Against_Women":2965},"recommendations":["Always share your live location with trusted contacts","📋 Madhya Pradesh has moderate safety levels — stay alert","Stick to familiar routes and public spaces"]},{"state":"West Bengal","safety_score":26.5,"risk_level":"High Risk","crime_rate":54.83,"total_crimes":50125,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[60.72,57.68,63.27,60.47,61.15,56.83,57.42,58.16,59.31,54.83],"crime_breakdown":{"Rape":9798,"Kidnapping_&_Abduction":4482,"Dowry_Deaths":6492,"Assault_on_Women":5539,"Insult_to_Modesty":1774,"Cruelty_by_Husband_Relatives":9744,"Trafficking":4592,"Cyber_Crimes_Against_Women":7701},"recommendations":["⚠️ West Bengal has elevated crime rates — exercise extra caution","Avoid travelling alone at night","Keep pepper spray or personal alarm accessible","Inform someone of your route and expected arrival time"]},{"state":"Odisha","safety_score":65.4,"risk_level":"Low Risk","crime_rate":36.92,"total_crimes":15436,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[57.81,53.75,51.9,48.91,47.84,45.91,46.44,49.23,42.8,36.92],"crime_breakdown":{"Rape":1266,"Kidnapping_&_Abduction":1576,"Dowry_Deaths":407,"Assault_on_Women":3396,"Insult_to_Modesty":1693,"Cruelty_by_Husband_Relatives":1834,"Trafficking":2080,"Cyber_Crimes_Against_Women":3181},"recommendations":["✅ Odisha has relatively low crime rates — stay vigilant","Maintain regular safety habits even in safer areas"]},{"state":"Delhi","safety_score":30.0,"risk_level":"Medium Risk","crime_rate":66.32,"total_crimes":11090,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[90.59,85.64,83.26,83.69,79.57,75.67,71.92,69.23,65.79,66.32],"crime_breakdown":{"Rape":1200,"Kidnapping_&_Abduction":298,"Dowry_Deaths":456,"Assault_on_Women":2578,"Insult_to_Modesty":1419,"Cruelty_by_Husband_Relatives":1109,"Trafficking":3289,"Cyber_Crimes_Against_Women":738},"recommendations":["📋 Delhi has moderate safety levels — stay alert","Stick to familiar routes and public spaces","Keep your phone charged and accessible","Use women-only compartments where available"]},{"state":"Assam","safety_score":39.9,"risk_level":"Medium Risk","crime_rate":53.71,"total_crimes":16730,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[71.32,69.57,68.93,64.28,57.05,58.15,57.9,55.71,46.02,53.71],"crime_breakdown":{"Rape":446,"Kidnapping_&_Abduction":3917,"Dowry_Deaths":1926,"Assault_on_Women":1999,"Insult_to_Modesty":1347,"Cruelty_by_Husband_Relatives":2862,"Trafficking":3354,"Cyber_Crimes_Against_Women":875},"recommendations":["📋 Assam has moderate safety levels — stay alert","Stick to familiar routes and public spaces"]},{"state":"Haryana","safety_score":52.3,"risk_level":"Medium Risk","crime_rate":46.1,"total_crimes":11692,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[66.01,68.97,62.06,68.47,61.33,59.52,56.54,56.55,53.25,46.1],"crime_breakdown":{"Rape":1497,"Kidnapping_&_Abduction":1121,"Dowry_Deaths":1071,"Assault_on_Women":2442,"Insult_to_Modesty":820,"Cruelty_by_Husband_Relatives":1172,"Trafficking":1652,"Cyber_Crimes_Against_Women":1914},"recommendations":["📋 Haryana has moderate safety levels — stay alert"]},{"state":"Bihar","safety_score":39.6,"risk_level":"Medium Risk","crime_rate":52.03,"total_crimes":54144,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[67.2,64.64,63.94,64.29,57.64,54.62,55.92,58.98,55.38,52.03],"crime_breakdown":{"Rape":1977,"Kidnapping_&_Abduction":4344,"Dowry_Deaths":5603,"Assault_on_Women":7631,"Insult_to_Modesty":6346,"Cruelty_by_Husband_Relatives":14603,"Trafficking":3517,"Cyber_Crimes_Against_Women":10118},"recommendations":["📋 Bihar has moderate safety levels — stay alert","Stick to familiar routes"]},{"state":"Jharkhand","safety_score":29.3,"risk_level":"High Risk","crime_rate":52.5,"total_crimes":17358,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[58.06,59.9,56.07,60.56,53.0,51.46,55.9,51.69,48.8,52.5],"crime_breakdown":{"Rape":6108,"Kidnapping_&_Abduction":721,"Dowry_Deaths":184,"Assault_on_Women":1127,"Insult_to_Modesty":2431,"Cruelty_by_Husband_Relatives":3624,"Trafficking":2126,"Cyber_Crimes_Against_Women":1032},"recommendations":["⚠️ Jharkhand has elevated crime rates — exercise extra caution","Avoid travelling alone at night","Keep pepper spray or personal alarm accessible"]},{"state":"Andhra Pradesh","safety_score":42.8,"risk_level":"Medium Risk","crime_rate":41.24,"total_crimes":20365,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[45.47,46.75,43.87,38.54,42.16,39.42,38.68,42.27,41.34,41.24],"crime_breakdown":{"Rape":679,"Kidnapping_&_Abduction":1483,"Dowry_Deaths":3954,"Assault_on_Women":6372,"Insult_to_Modesty":1271,"Cruelty_by_Husband_Relatives":1717,"Trafficking":2258,"Cyber_Crimes_Against_Women":2628},"recommendations":["📋 Andhra Pradesh has moderate safety levels — stay alert"]},{"state":"Telangana","safety_score":46.6,"risk_level":"Medium Risk","crime_rate":42.86,"total_crimes":14980,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[52.92,53.67,47.83,49.76,48.81,40.57,37.69,39.04,43.71,42.86],"crime_breakdown":{"Rape":2251,"Kidnapping_&_Abduction":3229,"Dowry_Deaths":1491,"Assault_on_Women":339,"Insult_to_Modesty":2812,"Cruelty_by_Husband_Relatives":738,"Trafficking":3402,"Cyber_Crimes_Against_Women":715},"recommendations":["📋 Telangana has moderate safety levels — stay alert"]},{"state":"Chhattisgarh","safety_score":51.2,"risk_level":"Medium Risk","crime_rate":43.46,"total_crimes":11055,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[58.92,57.14,54.15,50.65,51.46,48.7,47.43,45.76,42.14,43.46],"crime_breakdown":{"Rape":575,"Kidnapping_&_Abduction":1685,"Dowry_Deaths":3328,"Assault_on_Women":549,"Insult_to_Modesty":229,"Cruelty_by_Husband_Relatives":1839,"Trafficking":1877,"Cyber_Crimes_Against_Women":968},"recommendations":["📋 Chhattisgarh has moderate safety levels — stay alert"]},{"state":"Karnataka","safety_score":64.5,"risk_level":"Low Risk","crime_rate":30.41,"total_crimes":18604,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[41.97,41.21,43.82,40.98,42.1,37.89,41.35,31.46,32.1,30.41],"crime_breakdown":{"Rape":3157,"Kidnapping_&_Abduction":1989,"Dowry_Deaths":3141,"Assault_on_Women":835,"Insult_to_Modesty":2050,"Cruelty_by_Husband_Relatives":1818,"Trafficking":1882,"Cyber_Crimes_Against_Women":3729},"recommendations":["✅ Karnataka has relatively low crime rates — stay vigilant","Maintain regular safety habits"]},{"state":"Gujarat","safety_score":62.8,"risk_level":"Low Risk","crime_rate":31.68,"total_crimes":19145,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[43.25,35.76,37.91,35.02,37.45,37.32,36.3,31.81,33.84,31.68],"crime_breakdown":{"Rape":4184,"Kidnapping_&_Abduction":1238,"Dowry_Deaths":255,"Assault_on_Women":2906,"Insult_to_Modesty":1098,"Cruelty_by_Husband_Relatives":1608,"Trafficking":3478,"Cyber_Crimes_Against_Women":4372},"recommendations":["✅ Gujarat has relatively low crime rates — stay vigilant"]},{"state":"Tamil Nadu","safety_score":54.8,"risk_level":"Medium Risk","crime_rate":32.37,"total_crimes":23329,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[36.95,33.17,32.89,35.29,35.04,33.5,30.95,31.51,32.67,32.37],"crime_breakdown":{"Rape":3587,"Kidnapping_&_Abduction":1792,"Dowry_Deaths":3697,"Assault_on_Women":5441,"Insult_to_Modesty":1990,"Cruelty_by_Husband_Relatives":2615,"Trafficking":2595,"Cyber_Crimes_Against_Women":1608},"recommendations":["📋 Tamil Nadu has moderate safety levels — stay alert"]},{"state":"Punjab","safety_score":59.3,"risk_level":"Medium Risk","crime_rate":32.42,"total_crimes":8975,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[41.47,42.79,39.76,38.84,38.89,34.85,29.74,39.17,32.75,32.42],"crime_breakdown":{"Rape":692,"Kidnapping_&_Abduction":779,"Dowry_Deaths":1798,"Assault_on_Women":1273,"Insult_to_Modesty":294,"Cruelty_by_Husband_Relatives":1250,"Trafficking":1189,"Cyber_Crimes_Against_Women":1696},"recommendations":["📋 Punjab has moderate safety levels — stay alert"]},{"state":"Uttarakhand","safety_score":50.8,"risk_level":"Medium Risk","crime_rate":34.66,"total_crimes":3533,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[38.19,41.33,36.29,37.87,30.28,30.44,34.18,32.13,32.68,34.66],"crime_breakdown":{"Rape":50,"Kidnapping_&_Abduction":290,"Dowry_Deaths":426,"Assault_on_Women":639,"Insult_to_Modesty":477,"Cruelty_by_Husband_Relatives":171,"Trafficking":569,"Cyber_Crimes_Against_Women":907},"recommendations":["📋 Uttarakhand has moderate safety levels — stay alert"]},{"state":"Himachal Pradesh","safety_score":71.4,"risk_level":"Low Risk","crime_rate":20.19,"total_crimes":1452,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[25.21,26.67,22.73,19.98,22.62,23.18,24.04,22.17,25.33,20.19],"crime_breakdown":{"Rape":283,"Kidnapping_&_Abduction":59,"Dowry_Deaths":70,"Assault_on_Women":106,"Insult_to_Modesty":133,"Cruelty_by_Husband_Relatives":207,"Trafficking":436,"Cyber_Crimes_Against_Women":153},"recommendations":["✅ Himachal Pradesh has relatively low crime rates — stay vigilant","Maintain regular safety habits"]},{"state":"Kerala","safety_score":74.9,"risk_level":"Low Risk","crime_rate":21.62,"total_crimes":7195,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[31.94,34.01,32.3,29.09,23.9,25.72,28.2,29.82,32.81,21.62],"crime_breakdown":{"Rape":446,"Kidnapping_&_Abduction":701,"Dowry_Deaths":118,"Assault_on_Women":1542,"Insult_to_Modesty":1031,"Cruelty_by_Husband_Relatives":1577,"Trafficking":1088,"Cyber_Crimes_Against_Women":689},"recommendations":["✅ Kerala has relatively low crime rates — stay vigilant","Community awareness programs active here"]},{"state":"Goa","safety_score":65.0,"risk_level":"Low Risk","crime_rate":21.41,"total_crimes":351,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[21.72,11.01,19.76,23.99,19.35,16.1,19.79,20.52,14.59,21.41],"crime_breakdown":{"Rape":106,"Kidnapping_&_Abduction":6,"Dowry_Deaths":10,"Assault_on_Women":52,"Insult_to_Modesty":33,"Cruelty_by_Husband_Relatives":21,"Trafficking":93,"Cyber_Crimes_Against_Women":26},"recommendations":["✅ Goa has relatively low crime rates — stay vigilant"]},{"state":"Tripura","safety_score":69.8,"risk_level":"Low Risk","crime_rate":21.06,"total_crimes":820,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[25.66,24.66,26.89,24.32,25.75,26.5,18.6,22.02,17.47,21.06],"crime_breakdown":{"Rape":117,"Kidnapping_&_Abduction":100,"Dowry_Deaths":41,"Assault_on_Women":236,"Insult_to_Modesty":159,"Cruelty_by_Husband_Relatives":62,"Trafficking":50,"Cyber_Crimes_Against_Women":51},"recommendations":["✅ Tripura has relatively low crime rates — stay vigilant"]},{"state":"Meghalaya","safety_score":63.2,"risk_level":"Low Risk","crime_rate":21.29,"total_crimes":676,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[19.69,25.24,21.72,22.9,27.51,27.39,19.03,24.98,24.36,21.29],"crime_breakdown":{"Rape":25,"Kidnapping_&_Abduction":26,"Dowry_Deaths":88,"Assault_on_Women":143,"Insult_to_Modesty":132,"Cruelty_by_Husband_Relatives":179,"Trafficking":21,"Cyber_Crimes_Against_Women":58},"recommendations":["✅ Meghalaya has relatively low crime rates — stay vigilant"]},{"state":"Manipur","safety_score":52.8,"risk_level":"Medium Risk","crime_rate":30.08,"total_crimes":876,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[29.68,29.67,34.87,36.27,31.42,29.24,28.34,29.08,25.89,30.08],"crime_breakdown":{"Rape":178,"Kidnapping_&_Abduction":59,"Dowry_Deaths":30,"Assault_on_Women":209,"Insult_to_Modesty":188,"Cruelty_by_Husband_Relatives":32,"Trafficking":126,"Cyber_Crimes_Against_Women":50},"recommendations":["📋 Manipur has moderate safety levels — stay alert"]},{"state":"Nagaland","safety_score":67.2,"risk_level":"Low Risk","crime_rate":16.9,"total_crimes":389,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[13.5,17.07,17.27,15.16,16.72,15.75,14.92,15.15,12.86,16.9],"crime_breakdown":{"Rape":19,"Kidnapping_&_Abduction":102,"Dowry_Deaths":79,"Assault_on_Women":31,"Insult_to_Modesty":68,"Cruelty_by_Husband_Relatives":31,"Trafficking":49,"Cyber_Crimes_Against_Women":4},"recommendations":["✅ Nagaland has relatively low crime rates — stay vigilant"]},{"state":"Arunachal Pradesh","safety_score":58.3,"risk_level":"Medium Risk","crime_rate":25.07,"total_crimes":398,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[23.6,24.26,25.51,22.09,20.86,17.48,20.56,23.66,21.22,25.07],"crime_breakdown":{"Rape":35,"Kidnapping_&_Abduction":27,"Dowry_Deaths":85,"Assault_on_Women":52,"Insult_to_Modesty":12,"Cruelty_by_Husband_Relatives":5,"Trafficking":49,"Cyber_Crimes_Against_Women":129},"recommendations":["📋 Arunachal Pradesh has moderate safety levels — stay alert"]},{"state":"Mizoram","safety_score":77.1,"risk_level":"Low Risk","crime_rate":13.3,"total_crimes":123,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[14.98,19.25,18.15,11.82,8.69,13.23,14.64,9.14,11.19,13.3],"crime_breakdown":{"Rape":28,"Kidnapping_&_Abduction":4,"Dowry_Deaths":7,"Assault_on_Women":22,"Insult_to_Modesty":14,"Cruelty_by_Husband_Relatives":5,"Trafficking":10,"Cyber_Crimes_Against_Women":28},"recommendations":["✅ Mizoram has the lowest crime rates in India — stay vigilant","Community awareness programs active here"]},{"state":"Sikkim","safety_score":66.6,"risk_level":"Low Risk","crime_rate":15.91,"total_crimes":81,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[10.62,10.86,9.14,5.0,9.19,13.58,14.25,9.47,11.83,15.91],"crime_breakdown":{"Rape":11,"Kidnapping_&_Abduction":3,"Dowry_Deaths":21,"Assault_on_Women":8,"Insult_to_Modesty":8,"Cruelty_by_Husband_Relatives":7,"Trafficking":6,"Cyber_Crimes_Against_Women":12},"recommendations":["✅ Sikkim has very low crime rates — stay vigilant"]},{"state":"Jammu & Kashmir","safety_score":56.0,"risk_level":"Medium Risk","crime_rate":30.61,"total_crimes":3757,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[34.0,35.13,30.61,32.34,33.52,32.23,34.05,34.48,31.03,30.61],"crime_breakdown":{"Rape":104,"Kidnapping_&_Abduction":676,"Dowry_Deaths":811,"Assault_on_Women":520,"Insult_to_Modesty":207,"Cruelty_by_Husband_Relatives":276,"Trafficking":1030,"Cyber_Crimes_Against_Women":129},"recommendations":["📋 Jammu & Kashmir has moderate safety levels — stay alert"]},{"state":"Chandigarh","safety_score":53.1,"risk_level":"Medium Risk","crime_rate":36.87,"total_crimes":383,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[45.63,37.43,39.0,41.29,40.56,42.2,36.79,45.18,38.05,36.87],"crime_breakdown":{"Rape":8,"Kidnapping_&_Abduction":69,"Dowry_Deaths":9,"Assault_on_Women":46,"Insult_to_Modesty":91,"Cruelty_by_Husband_Relatives":18,"Trafficking":50,"Cyber_Crimes_Against_Women":87},"recommendations":["📋 Chandigarh has moderate safety levels — stay alert"]},{"state":"Puducherry","safety_score":68.1,"risk_level":"Low Risk","crime_rate":25.84,"total_crimes":351,"trend_years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"trend_rates":[34.97,30.79,32.42,28.28,33.63,24.99,29.32,26.35,30.95,25.84],"crime_breakdown":{"Rape":37,"Kidnapping_&_Abduction":19,"Dowry_Deaths":80,"Assault_on_Women":40,"Insult_to_Modesty":72,"Cruelty_by_Husband_Relatives":56,"Trafficking":17,"Cyber_Crimes_Against_Women":26},"recommendations":["✅ Puducherry has relatively low crime rates — stay vigilant"]}],"national":{"years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"rates":[45.43,44.17,43.69,42.62,40.95,39.7,39.02,39.54,37.65,36.77]},"crime_breakdown":{"Rape":78598,"Kidnapping & Abduction":70053,"Dowry Deaths":59609,"Assault on Women":68685,"Insult to Modesty":57570,"Cruelty by Husband/Relatives":88856,"Trafficking":80652,"Cyber Crimes Against Women":70968}};
+
+const states = APP_DATA.states;
+const stateMap = {};
+states.forEach(s => stateMap[s.state] = s);
+
+function riskColor(rl){return rl==='Low Risk'?'#22c55e':rl==='Medium Risk'?'#f59e0b':'#ef4444'}
+function riskBadge(rl){return rl==='Low Risk'?'rL':rl==='Medium Risk'?'rM':'rH'}
+function riskIcon(rl){return rl==='Low Risk'?'✅':rl==='Medium Risk'?'⚠️':'🚨'}
+
+function showSec(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('nb-'+id)?.classList.add('active');
+  if(id==='dash') initDash();
+  if(id==='chat') initChat();
+}function buildStatesList(){
+  const sorted=[...states].sort((a,b)=>b.safety_score-a.safety_score);
+  document.getElementById('slist').innerHTML=sorted.map(s=>`
+    <div class="si" onclick="quickSearch('${s.state}')">
+      <div class="sdot" style="background:${riskColor(s.risk_level)}"></div>
+      <div class="sn">${s.state}</div>
+      <div class="sc" style="color:${riskColor(s.risk_level)}">${s.safety_score.toFixed(0)}</div>
+    </div>`).join('');
+}
+
+function quickSearch(name){
+  document.getElementById('sinp').value=name;
+  doSearch();
+}
+
+function doSearch(){
+  const q=document.getElementById('sinp').value.trim().toLowerCase();
+  if(!q) return;
+  const found=states.find(s=>s.state.toLowerCase().includes(q));
+  const sres=document.getElementById('sres');
+  if(!found){sres.innerHTML='<div style="color:#ef4444;font-size:11px;padding:4px 0">No state found. Try again.</div>';sres.style.display='block';return}
+  const c=riskColor(found.risk_level);
+  const icon=riskIcon(found.risk_level);
+  const recs=found.recommendations.slice(0,3).map(r=>`<p>${r}</p>`).join('');
+  sres.style.display='block';
+  sres.innerHTML=`<div class="rc">
+    <div class="rstate">${icon} ${found.state}</div>
+    <span class="rbadge ${riskBadge(found.risk_level)}">${found.risk_level}</span>
+    <div><span class="rscore" style="color:${c}">${found.safety_score.toFixed(0)}</span><span style="font-size:10px;color:var(--ts)"> / 100</span></div>
+    <div class="rinfo">Crime Rate: ${found.crime_rate.toFixed(1)} per lakh women</div>
+    <div class="rrec"><h4>Recommendations</h4>${recs}</div>
+  </div>`;
+}
+
+const STATE_POSITIONS = {
+  "Uttar Pradesh":[0.54,0.38],"Rajasthan":[0.37,0.42],"Maharashtra":[0.43,0.58],"Madhya Pradesh":[0.47,0.50],
+  "West Bengal":[0.74,0.45],"Odisha":[0.65,0.55],"Delhi":[0.46,0.33],"Assam":[0.84,0.35],
+  "Haryana":[0.44,0.31],"Bihar":[0.67,0.40],"Jharkhand":[0.69,0.48],"Andhra Pradesh":[0.57,0.68],
+  "Telangana":[0.54,0.63],"Chhattisgarh":[0.58,0.53],"Karnataka":[0.48,0.72],"Gujarat":[0.32,0.52],
+  "Tamil Nadu":[0.52,0.80],"Punjab":[0.40,0.26],"Uttarakhand":[0.50,0.28],"Himachal Pradesh":[0.46,0.23],
+  "Kerala":[0.47,0.85],"Goa":[0.40,0.72],"Tripura":[0.82,0.44],"Meghalaya":[0.81,0.38],
+  "Manipur":[0.88,0.38],"Nagaland":[0.90,0.34],"Arunachal Pradesh":[0.89,0.27],"Mizoram":[0.85,0.44],
+  "Sikkim":[0.80,0.32],"Jammu & Kashmir":[0.43,0.18],"Chandigarh":[0.43,0.28],"Puducherry":[0.55,0.77]
+};
+
+function drawMap(){
+  const canvas=document.getElementById('indiamap');
+  if(!canvas) return;
+  const parent=canvas.parentElement;
+  canvas.width=parent.clientWidth||600;
+  canvas.height=parent.clientHeight||500;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  ctx.fillStyle='#0a0a1a';
+  ctx.fillRect(0,0,W,H);
+  const tip=document.getElementById('tip');
+  const INDIA_OUTLINE=[
+    [0.33,0.18],[0.42,0.15],[0.55,0.13],[0.67,0.16],[0.74,0.20],[0.90,0.25],[0.95,0.35],
+    [0.90,0.42],[0.85,0.50],[0.78,0.60],[0.70,0.70],[0.60,0.82],[0.53,0.88],[0.47,0.92],
+    [0.40,0.85],[0.35,0.75],[0.30,0.65],[0.27,0.58],[0.28,0.48],[0.30,0.38],[0.33,0.28],[0.33,0.18]
+  ];
+  ctx.beginPath();
+  INDIA_OUTLINE.forEach(([px,py],i)=>{
+    const x=px*W, y=py*H;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle='rgba(168,85,247,0.06)';
+  ctx.fill();
+  ctx.strokeStyle='rgba(168,85,247,0.25)';
+  ctx.lineWidth=1.5;
+  ctx.stroke();
+  const dots=[];
+  states.forEach(s=>{
+    const pos=STATE_POSITIONS[s.state];
+    if(!pos) return;
+    const [px,py]=pos;
+    const x=px*W, y=py*H;
+    const score=s.safety_score;
+    const color=riskColor(s.risk_level);
+    const r=Math.max(6, Math.min(18, 6+(100-score)*0.14));
+    ctx.beginPath();
+    ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.fillStyle=color+'40';
+    ctx.fill();
+    ctx.strokeStyle=color;
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+    ctx.fillStyle=color;
+    ctx.font=`500 ${Math.max(8,Math.min(10,r*0.8))}px sans-serif`;
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.fillText(score.toFixed(0),x,y);
+    dots.push({x,y,r:r+3,state:s});
+  });
+  canvas.onmousemove=function(e){
+    const rect=canvas.getBoundingClientRect();
+    const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+    let found=null;
+    dots.forEach(d=>{
+      const dx=mx-d.x, dy=my-d.y;
+      if(Math.sqrt(dx*dx+dy*dy)<d.r) found=d;
+    });
+    if(found){
+      const s=found.state;
+      document.getElementById('ttitle').textContent=riskIcon(s.risk_level)+' '+s.state;
+      document.getElementById('tscore').textContent=s.safety_score.toFixed(1)+'/100';
+      document.getElementById('trisk').style.color=riskColor(s.risk_level);
+      document.getElementById('trisk').textContent=s.risk_level;
+      document.getElementById('trate').textContent=s.crime_rate.toFixed(1)+' per lakh';
+      tip.style.opacity='1';
+      tip.style.left=(found.x+15)+'px';
+      tip.style.top=(found.y-20)+'px';
+      canvas.style.cursor='pointer';
+    } else {
+      tip.style.opacity='0';
+      canvas.style.cursor='default';
+    }
+  };
+  canvas.onclick=function(e){
+    const rect=canvas.getBoundingClientRect();
+    const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+    dots.forEach(d=>{
+      const dx=mx-d.x, dy=my-d.y;
+      if(Math.sqrt(dx*dx+dy*dy)<d.r) quickSearch(d.state.state);
+    });
+  };
+  canvas.onmouseleave=function(){tip.style.opacity='0'};
+}
+
+buildStatesList();
+drawMap();
+window.addEventListener('resize',()=>drawMap());
+</script>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Sakhi AI</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            text-align:center;
+            margin-top:100px;
+        }
+
+        input{
+            padding:10px;
+            width:300px;
+        }
+
+        button{
+            padding:10px 20px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🌸 Sakhi AI</h1>
+
+<h3>Women Safety Search</h3>
+
+<form action="/search" method="POST">
+
+    <input
+        type="text"
+        name="district"
+        placeholder="Enter District Name"
+        required
+    >
+
+    <button type="submit">
+        Search
+    </button> -->
+
+<!-- </form> -->
+<!-- <a href="/map">
+    <button>View Safety Map</button>
+</a>
+
+</body>
+</html> -->

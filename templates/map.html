@@ -1,18 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>India Safety Map</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>India Safety Map</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #0a0a1a;
+      color: white;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+    h1 {
+      text-align: center;
+      padding: 16px 12px 12px;
+      font-size: clamp(18px, 5vw, 28px);
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .map-wrapper {
+      flex: 1;
+      width: 100%;
+      padding: 0 0 12px;
+    }
+    iframe {
+      width: 100%;
+      height: clamp(320px, 75vh, 700px);
+      border: none;
+      display: block;
+    }
+    .back-link {
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+    .back-link a {
+      color: #a855f7;
+      text-decoration: none;
+      font-size: 14px;
+      border: 1px solid rgba(168,85,247,0.4);
+      padding: 6px 16px;
+      border-radius: 20px;
+      transition: background 0.2s;
+    }
+    .back-link a:hover { background: rgba(168,85,247,0.15); }
+
+    @media (max-width: 480px) {
+      h1 { padding: 12px 8px 8px; }
+      iframe { height: clamp(280px, 70vh, 500px); }
+    }
+  </style>
 </head>
 <body>
-
-<h1>🗺️ India Women Safety Map</h1>
-
-<iframe
-    src="/static/india_risk_map.html"
-    width="100%"
-    height="700px"
-    style="border:none;">
-</iframe>
-
+  <h1>🗺️ India Women Safety Map</h1>
+  <div class="map-wrapper">
+    <iframe
+      src="/static/india_risk_map.html"
+      title="India Women Safety Risk Map"
+      loading="lazy"
+      allow="geolocation">
+    </iframe>
+  </div>
+  <div class="back-link">
+    <a href="/">← Back to Sakhi AI</a>
+  </div>
 </body>
 </html>

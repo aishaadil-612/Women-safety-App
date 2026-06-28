@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sakhi AI Chat</title>
 
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -6,7 +12,7 @@
   .sakhi-app {
     display: flex;
     flex-direction: column;
-    height: 600px;
+    height: 100dvh; min-height: 500px; max-height: 900px;
     background: linear-gradient(135deg,rgba);
     background-color:#1F2937;
     border: 0.5px solid var(--color-border-tertiary);
@@ -304,6 +310,37 @@
   .risk-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 12.5px; }
   .risk-row:last-child { border-bottom: none; }
   
+
+/* ===== RESPONSIVE STYLES ===== */
+@media (max-width: 600px) {
+  .sakhi-app { height: 100dvh; max-height: 100dvh; border-radius: 0; border: none; }
+  .sakhi-header { padding: 10px 12px; gap: 8px; }
+  .sakhi-title h1 { font-size: 14px; }
+  .sakhi-title p { font-size: 10px; }
+  .sakhi-logo { width: 34px; height: 34px; font-size: 17px; }
+  .search-bar-container { padding: 8px 10px; }
+  .search-bar { padding: 6px 10px; }
+  .search-bar input { font-size: 12px; }
+  .quick-actions { padding: 6px 10px; gap: 5px; }
+  .qa-btn { font-size: 10.5px; padding: 4px 9px; }
+  .chat-area { padding: 10px; gap: 10px; }
+  .msg { max-width: 92%; }
+  .bubble { font-size: 12.5px; padding: 9px 12px; }
+  .avatar { width: 24px; height: 24px; font-size: 11px; }
+  .input-area { padding: 8px 10px; gap: 6px; }
+  .send-btn { width: 34px; height: 34px; font-size: 14px; }
+  .mic-btn { width: 30px; height: 30px; font-size: 14px; }
+  .sos-modal { width: calc(100vw - 40px); padding: 18px; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .tip-chips { gap: 4px; }
+  .tip-chip { font-size: 10.5px; padding: 3px 8px; }
+}
+@media (max-width: 380px) {
+  .sakhi-title h1 span { display: none; }
+  .header-btn:not(.sos-btn-header) { display: none; }
+  .qa-btn:not(.danger):nth-child(n+4) { display: none; }
+}
+
 </style>
 <body>
 <div class="sakhi-app" id="sakhiApp">
@@ -848,3 +885,4 @@ function startListening(){
 
 </script>
 </body>
+</html>

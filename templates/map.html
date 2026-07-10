@@ -3,70 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>India Safety Map</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Arial, sans-serif;
-      background: #0a0a1a;
-      color: white;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-    }
-    h1 {
-      text-align: center;
-      padding: 16px 12px 12px;
-      font-size: clamp(18px, 5vw, 28px);
-      background: linear-gradient(135deg, #a855f7, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .map-wrapper {
-      flex: 1;
-      width: 100%;
-      padding: 0 0 12px;
-    }
-    iframe {
-      width: 100%;
-      height: clamp(320px, 75vh, 700px);
-      border: none;
-      display: block;
-    }
-    .back-link {
-      display: flex;
-      justify-content: center;
-      padding: 10px;
-    }
-    .back-link a {
-      color: #a855f7;
-      text-decoration: none;
-      font-size: 14px;
-      border: 1px solid rgba(168,85,247,0.4);
-      padding: 6px 16px;
-      border-radius: 20px;
-      transition: background 0.2s;
-    }
-    .back-link a:hover { background: rgba(168,85,247,0.15); }
-
-    @media (max-width: 480px) {
-      h1 { padding: 12px 8px 8px; }
-      iframe { height: clamp(280px, 70vh, 500px); }
-    }
-  </style>
+  <title>India Safety Map — Sakhi AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
 </head>
-<body>
-  <h1>🗺️ India Women Safety Map</h1>
+<body class="map-page-body">
+  <header class="app-header">
+    <div class="header-left">
+      <a href="/">
+        <div class="logo">
+          <img src="{{ url_for('static', filename='sakhi-shield-logo-192.png') }}" alt="Sakhi AI Logo" class="logo-img">
+          <span class="logo-text">Sakhi <span class="accent-text">AI</span></span>
+        </div>
+      </a>
+    </div>
+    <nav class="app-nav" id="nav">
+      <a href="/" class="nav-item" id="nb-map">
+        <i class="ti ti-home"></i> <span>Home</span>
+      </a>
+      <a href="/map" class="nav-item active" id="nb-map-page">
+        <i class="ti ti-map-2"></i> <span>Map</span>
+      </a>
+      <a href="/analytics" class="nav-item" id="nb-analytics">
+        <i class="ti ti-chart-bar"></i> <span>Analytics</span>
+      </a>
+      <a href="/sakhi-chat" class="nav-item" id="nb-chat">
+        <i class="ti ti-message-2"></i> <span>Sakhi Chat</span>
+      </a>
+    </nav>
+    <div class="header-right">
+      <a href="/sos">
+        <button class="sos-hdr-btn">
+          <i class="ti ti-alert-triangle"></i> SOS Emergency
+        </button>
+      </a>
+    </div>
+  </header>
+
+  <h1 class="map-title"><i class="ti ti-map-2"></i> India Women Safety Map</h1>
+  
   <div class="map-wrapper">
-    <iframe
-      src="/static/india_risk_map.html"
-      title="India Women Safety Risk Map"
-      loading="lazy"
-      allow="geolocation">
-    </iframe>
+    <div class="map-iframe-container">
+      <iframe
+        class="map-iframe"
+        src="/static/india_risk_map.html"
+        title="India Women Safety Risk Map"
+        loading="lazy"
+        allow="geolocation">
+      </iframe>
+    </div>
   </div>
+
   <div class="back-link">
-    <a href="/">← Back to Sakhi AI</a>
+    <a href="/" class="btn-secondary"><i class="ti ti-arrow-back-up"></i> Back to Home</a>
   </div>
 </body>
 </html>

@@ -121,8 +121,8 @@
       font-size: 17px;
       font-weight: 500;
       background: linear-gradient(135deg, #a855f7, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      /* -webkit-background-clip: text; */
+      /* -webkit-text-fill-color: transparent; */
       display: flex;
       align-items: center;
       gap: 7px
@@ -145,6 +145,7 @@
       height: 50px;
       border-radius: 0px;
     } 
+ 
 
     nav {
       display: flex;
@@ -629,9 +630,15 @@
   <h2 class="sr-only gradient-text">Sakhi AI — Women Safety Intelligence Platform for India</h2>
   <div class="app">
     <header>
-      <div class="logo">
-        <div class="logo-icon"><img src="/Images/sakhi-shield-logo-192.png" alt="Sakhi AI Logo"></div>Sakhi AI
-      </div>
+      <!-- <div class="logo">
+        <div class="logo-icon"><img src="static/sakhi-shield-logo-192.png" alt="Sakhi AI Logo"></div>Sakhi AI
+      </div> -->
+<div class="logo">
+    <div class="logo-icon">
+        <img src="{{ url_for('static', filename='sakhi-shield-logo-192.png') }}" alt="Sakhi AI Logo">
+    </div>
+    <span>Sakhi AI</span>
+</div>
       <nav id="nav">
         <a href="/">
           <button onclick="showSec('map')" class="active" id="nb-map">home</button>

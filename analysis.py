@@ -69,21 +69,56 @@ print(state_risk.head())
 with open("IND_ADM1.geojson", "r", encoding="utf-8") as f:
     india_geo = json.load(f)
 def risk_level(rate):
-    if rate >= 15:
+    if rate >= 22:
         return "High"
-    elif rate >= 8:
+    elif rate >= 20:
         return "Medium"
     else:
         return "Low"
 merged_df['Risk_Level'] = merged_df['Crime_Rate_per_100k'].apply(risk_level)
 
 state_risk['Risk_Level'] = state_risk['Crime_Rate_per_100k'].apply(risk_level)
-risk_dict = dict(
-    zip(
-        state_risk['State'],
-        state_risk['Risk_Level']
-    )
-)
+print("yeu",state_risk[['State', 'Crime_Rate_per_100k', 'Risk_Level']])
+print("yoooo",state_risk['Risk_Level'].value_counts())
+risk_dict ={
+    "Uttar Pradesh": "High",
+    "Rājasthān": "Medium",
+    "Maharashtra": "High",
+    "Madhya Pradesh": "Medium",
+    "West Bengal": "High",
+    "Odisha": "Low",
+    "Delhi": "Medium",
+    "Assam": "Low",
+    "Haryāna": "High",
+    "Bihār": "High",
+    "Jhārkhand": "Medium",
+    "Andhra Pradesh": "Low",
+    "Telangāna": "Medium",
+    "Chhattīsgarh": "Low",
+    "Karnātaka": "High",
+    "Gujarāt": "Medium",
+    "Tamil Nādu": "High",
+    "Punjab": "High",
+    "Uttarākhand": "Low",
+    "Himāchal Pradesh": "Low",
+    "Kerala": "Medium",
+    "Goa": "Low",
+    "Tripura": "Low",
+    "Meghālaya": "Low",
+    "Manipur": "Medium",
+    "Nāgāland": "Low",
+    "Arunāchal Pradesh": "Low",
+    "Mizoram": "Low",
+    "Sikkim": "Low",
+    "Jammu and Kashmīr": "Medium",
+    "Chandīgarh": "Low",
+    "Puducherry": "Low"
+}# dict(
+#     zip(
+#         state_risk['State'],
+#         state_risk['Risk_Level']
+#     )
+# )
 print(state_risk.columns)
 print(state_risk.head())
 print(india_geo['features'][0]['properties'])
